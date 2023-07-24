@@ -7,7 +7,7 @@ namespace TastingClubDAL.Interfaces
         void Create(DbModel model);
         void CreateRange(IEnumerable<DbModel> models);
         void Delete(int id);
-        void DeleteRange(IEnumerable<DbModel> models);
+        void DeleteRange(IEnumerable<int> ids);
         DbModel Get(int id);
         IEnumerable<DbModel> GetAll(bool asNoTraking = false);
         IQueryable<DbModel> GetAllQueryable(bool asNoTraking = false);

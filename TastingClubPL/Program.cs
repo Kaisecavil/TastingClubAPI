@@ -14,7 +14,6 @@ using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.Services;
 using AutoMapper;
 using TastingClubBLL.Helpers;
-using Microsoft.AspNetCore.Diagnostics;
 
 namespace TastingClubPL
 {
@@ -24,7 +23,9 @@ namespace TastingClubPL
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // Add services to the container.
+
             builder.Services.AddDbContext<ApplicationContext>(
                 o =>
                 {
@@ -40,7 +41,27 @@ namespace TastingClubPL
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
 
+            //builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+            
+            //builder.Services.Configure<RequestLocalizationOptions>(options =>
+            //{
+            //    var supportedCultures = new List<CultureInfo>
+            //    {
+            //        new CultureInfo("en-US"),
+            //        new CultureInfo("ru-RU")
+            //    };
+
+            //    options.DefaultRequestCulture = new RequestCulture("en-US");
+            //    options.SupportedCultures = supportedCultures;
+            //    options.SupportedUICultures = supportedCultures;
+            //});
+
+            //builder.Services.AddSingleton<IStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
+            //builder.Services.AddSingleton<IStringLocalizer>(provider =>
+            //    provider.GetService<IStringLocalizerFactory>().Create("SharedResources", "MyWebApp"));
+
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IEventService, EventService>();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -64,20 +85,17 @@ namespace TastingClubPL
 
             builder.Services.AddTransient<IAuthService, AuthService>();
 
-            builder.Services.AddControllers();
-
-            builder.Services.AddSingleton(provider =>
+            var mapperConfig = new MapperConfiguration(mc =>
             {
-                var scope = provider.CreateScope();
-                var mapperConfig = new MapperConfiguration(cfg =>
-                {
-                    cfg.AddProfile(new MappingProfiles());
-                });
-
-                return mapperConfig.CreateMapper();
+                mc.AddProfile(new MappingProfiles());
             });
 
-            builder.Services.AddTransient<Seed>();
+            IMapper mapper = mapperConfig.CreateMapper();
+            builder.Services.AddSingleton(mapper);
+
+            builder.Services.AddControllers();
+
+            //builder.Services.AddTransient<Seed>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -112,7 +130,6 @@ namespace TastingClubPL
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -126,18 +143,7 @@ namespace TastingClubPL
 
             app.UseStaticFiles();
 
-            app.UseExceptionHandler(c => c.Run(async context =>
-            {
-                var exception = context.Features
-                    .Get<IExceptionHandlerPathFeature>()
-                    .Error;
-                var response = new { error = exception.Message };
-                await context.Response.WriteAsJsonAsync(response);
-            }));
-
-            app.UseExceptionHandler("/error");
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
-            //app.MapControllers();
+            app.MapControllers();
 
             app.Run();
         }

@@ -1,6 +1,6 @@
 ﻿namespace TastingClubBLL.ViewModels.UserDrinkReviewViewModels
 {
-    internal class UserDrinkReviewDetailViewModel
+    public class UserDrinkReviewDetailViewModel
     {
     }
 }

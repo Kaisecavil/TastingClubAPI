@@ -107,8 +107,9 @@ namespace TastingClubDAL.Repositories
         {
             await _context.Set<DbModel>().AddRangeAsync(models);
         }
-        public void DeleteRange(IEnumerable<DbModel> models)
+        public void DeleteRange(IEnumerable<int> ids)
         {
+            var models = _context.Set<DbModel>().Where(m => ids.Contains(m.Id))); 
             _context.Set<DbModel>().RemoveRange(models);
         }
     }

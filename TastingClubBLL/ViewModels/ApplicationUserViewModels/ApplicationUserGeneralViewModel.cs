@@ -1,6 +1,6 @@
 ﻿namespace TastingClubBLL.ViewModels.ApplicationUserViewModels
 {
-    internal class ApplicationUserGeneralViewModel
+    public class ApplicationUserGeneralViewModel
     {
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TastingClubDAL.Models;
+﻿using TastingClubDAL.Models;
 using AutoMapper;
 using TastingClubBLL.DTOs.DrinkDTOs;
 using TastingClubBLL.ViewModels.DrinkViewModels;
@@ -44,7 +39,7 @@ namespace TastingClubBLL.Helpers
 
 
             CreateMap<UserDrinkReview, UserDrinkReviewDetailViewModel>();
-            CreateMap<UserDrinkReview, UserDrinkReviewReportViewModel>();
+            CreateMap<UserDrinkReview, UserDrinkReviewGeneralViewModel>();
             CreateMap<UserDrinkReviewDtoForCreate, UserDrinkReview>();
             CreateMap<UserDrinkReviewDtoForUpdate, UserDrinkReview>();
 

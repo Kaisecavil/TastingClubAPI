@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using TastingClubBLL.DTOs.EventDTOs;
+using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.ViewModels.EventViewModels;
 using TastingClubDAL.Interfaces;
@@ -16,23 +13,27 @@ namespace TastingClubBLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        EventService(IUnitOfWork unitOfWork, IMapper mapper)
+
+        public EventService(IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task CreateEventAsync(EventDtoForCreate eventDto)
+        public async Task<int> CreateEventAsync(EventDtoForCreate eventDto)
         {
             var mappedEvent = _mapper.Map<Event>(eventDto);
             await _unitOfWork.Events.CreateAsync(mappedEvent);
+            await _unitOfWork.SaveAsync();
+            return mappedEvent.Id;
         }
 
-        public async Task DeleteEvent(int id)
+        public async Task DeleteEventAsync(int id)
         {
             if(!await _unitOfWork.Events.EntityExistsAsync(id))
             {
-                throw new Exception();
+                throw new HttpStatusException(HttpStatusCode.NotFound, "Event not found"); 
             }
             await _unitOfWork.Events.DeleteAsync(id);
             await _unitOfWork.SaveAsync();
@@ -46,20 +47,22 @@ namespace TastingClubBLL.Services
 
         public async Task<EventDetailViewModel> GetEventAsync(int id)
         {
-            if (!await _unitOfWork.Events.EntityExistsAsync(id))
+            var entity = await _unitOfWork.Events.GetAsync(id);
+            if (entity == null)
             {
-                throw new Exception();
+                throw new HttpStatusException(HttpStatusCode.NotFound, "Event not found");
             }
-            return _mapper.Map<EventDetailViewModel>(await _unitOfWork.Events.GetAsync(id));
+            return _mapper.Map<EventDetailViewModel>(entity);
         }
 
-        public async Task UpdateEvent(EventDtoForUpdate eventDto)
+        public async Task UpdateEventAsync(EventDtoForUpdate eventDto)
         {
-            //if (!await _unitOfWork.Events.EntityExistsAsync(id))
-            //{
-            //    throw new Exception();
-            //}
-            //await _unitOfWork.Events.GetAsync(id);
+            if (!await _unitOfWork.Events.EntityExistsAsync(eventDto.Id))
+            {
+                throw new HttpStatusException(HttpStatusCode.NotFound, "Event not found");
+            }
+            await _unitOfWork.Events.UpdateAsync(_mapper.Map<Event>(eventDto));
+            await _unitOfWork.SaveAsync();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TastingClubBLL.ViewModels.GroupViewModels
 {
-    internal class GroupDetailViewModel
+    public class GroupDetailViewModel
     {
     }
 }

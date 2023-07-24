@@ -1,6 +1,7 @@
 ﻿namespace TastingClubBLL.DTOs.GroupDTOs
 {
-    internal class GroupDtoForUpdate
+    public class GroupDtoForUpdate
     {
+        public int Id { get; set; }
     }
 }

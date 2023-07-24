@@ -1,5 +1,4 @@
-﻿using System.IO;
-using TastingClubDAL.Models.Base;
+﻿using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.Models
 {
