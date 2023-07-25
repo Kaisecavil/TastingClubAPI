@@ -13,6 +13,7 @@ namespace TastingClubDAL.Interfaces
         IBaseRepository<Group> Groups { get; }
         IBaseRepository<UserDrinkReview> UserDrinkReviews { get; }
         IBaseRepository<UserGroup> UserGroups { get; }
+        IBaseRepository<DrinkSuitableProduct> DrinkSuitableProducts { get; }
 
         void Dispose();
         void Dispose(bool disposing);

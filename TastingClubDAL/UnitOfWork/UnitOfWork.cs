@@ -18,6 +18,7 @@ namespace TastingClubDAL.UnitOfWork
         private IBaseRepository<GroupPhoto> _groupPhotoRepository;
         private IBaseRepository<UserGroup> _userGroupRepository;
         private IBaseRepository<EventParticipant> _eventParticipantRepository;
+        private IBaseRepository<DrinkSuitableProduct> _drinkSuitableProductRepository;
 
         public UnitOfWork(ApplicationContext db)
         {
@@ -104,6 +105,16 @@ namespace TastingClubDAL.UnitOfWork
                 if (_eventParticipantRepository == null)
                     _eventParticipantRepository = new BaseRepository<EventParticipant>(_db);
                 return _eventParticipantRepository;
+            }
+        }
+
+        public IBaseRepository<DrinkSuitableProduct> DrinkSuitableProducts
+        {
+            get
+            {
+                if (_drinkSuitableProductRepository == null)
+                    _drinkSuitableProductRepository = new BaseRepository<DrinkSuitableProduct>(_db);
+                return _drinkSuitableProductRepository;
             }
         }
 
