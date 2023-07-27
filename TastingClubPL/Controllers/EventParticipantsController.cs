@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TastingClubBLL.DTOs.EventDrinkDTOs;
+using TastingClubBLL.DTOs.EventParticipantDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
-using TastingClubBLL.Services;
 using TastingClubBLL.ViewModels.ApplicationUserViewModels;
 using TastingClubBLL.ViewModels.DrinkViewModels;
 
@@ -49,7 +48,7 @@ namespace TastingClubPL.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
         //[Authorize(Roles = RoleConstants.AdminRole)]
-        public async Task<IActionResult> PostEventParticipants(List<EventDrinkDtoForCreate> eventParticipantDtos)
+        public async Task<IActionResult> PostEventParticipants(List<EventParticipantDtoForCreate> eventParticipantDtos)
         {
             try
             {
@@ -73,11 +72,11 @@ namespace TastingClubPL.Controllers
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         //[Authorize(Roles = RoleConstants.AdminRole)]
-        public async Task<IActionResult> DeleteEventParticipants(int id)
+        public async Task<IActionResult> DeleteEventParticipants(List<int> ids)
         {
             try
             {
-                await _eventParticipantService.DeleteEventParticipantAsync(id);
+                await _eventParticipantService.DeleteEventParticipantAsync(ids);
                 return NoContent();
             }
             catch (HttpStatusException httpStatusException)

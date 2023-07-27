@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TastingClubBLL.DTOs.EventParticipantDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
+using TastingClubBLL.ViewModels.ApplicationUserViewModels;
 using TastingClubBLL.ViewModels.DrinkViewModels;
 using TastingClubDAL.Interfaces;
 using TastingClubDAL.Models;
@@ -40,15 +36,15 @@ namespace TastingClubBLL.Services
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "EventParticipant not found");
             }
-            await _unitOfWork.EventParticipants.DeleteRange(ids);
+            _unitOfWork.EventParticipants.DeleteRange(ids);
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<List<DrinkGeneralViewModel>> GetAllEventParticipantAsync(int eventId)
+        public async Task<List<ApplicationUserGeneralViewModel>> GetAllEventParticipantAsync(int eventId)
         {
-            var drinks = _unitOfWork.EventParticipant.GetAllQueryable(true)
-                .Where(eventDrink => eventDrink.EventId == eventId)
-                .Select(eventDrink => eventDrink.Drink);
+            var drinks = _unitOfWork.EventParticipants.GetAllQueryable(true)
+                .Where(eventParticipant => eventParticipant.EventId == eventId)
+                .Select(eventParticipant => eventParticipant.User);
             return _mapper.Map<List<DrinkGeneralViewModel>>(drinks);
         }
     }

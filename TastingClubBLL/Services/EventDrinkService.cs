@@ -31,11 +31,11 @@ namespace TastingClubBLL.Services
 
         public async Task DeleteEventDrinksAsync(List<int> ids)
         {
-            if (ids.Any(async id => !await _unitOfWork.EventDrinks.EntityExistsAsync(id)))
+            if (ids.Any(async id => _unitOfWork.EventDrinks.EntityExistsAsync(id)))
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "EventDrink not found");
             }
-            await _unitOfWork.EventDrinks.DeleteRange(ids);
+            _unitOfWork.EventDrinks.DeleteRange(ids);
             await _unitOfWork.SaveAsync();
         }
 

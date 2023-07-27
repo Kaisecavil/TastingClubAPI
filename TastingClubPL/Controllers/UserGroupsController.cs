@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TastingClubBLL.DTOs.EventDrinkDTOs;
+using TastingClubBLL.DTOs.UserGroupDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.Services;
@@ -14,9 +14,9 @@ namespace TastingClubPL.Controllers
     [ApiController]
     public class UserGroupsController : ControllerBase
     {
-        private readonly UserGroupService _userGroupService;
+        private readonly IUserGroupService _userGroupService;
 
-        public UserGroupController(IUserGroupService userGroupService)
+        public UserGroupsController(IUserGroupService userGroupService)
         {
             _userGroupService = userGroupService;
         }
@@ -28,7 +28,7 @@ namespace TastingClubPL.Controllers
         {
             try
             {
-                return Ok(await _userGroupService.GetAllUserGroupAsync(eventId));
+                return Ok(await _userGroupService.GetAllUserGroupsAsync(eventId));
             }
             catch (HttpStatusException httpStatusException)
             {
@@ -49,11 +49,11 @@ namespace TastingClubPL.Controllers
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
         //[Authorize(Roles = RoleConstants.AdminRole)]
-        public async Task<IActionResult> PostUserGroups(List<EventDrinkDtoForCreate> userGroupDtos)
+        public async Task<IActionResult> PostUserGroups(List<UserGroupDtoForCreate> userGroupDtos)
         {
             try
             {
-                var createdUserGroupId = await _userGroupService.CreateUserGroupAsync(userGroupDtos);
+                var createdUserGroupId = await _userGroupService.CreateUserGroupsAsync(userGroupDtos);
                 return CreatedAtAction("GetUserGroup", new { id = createdUserGroupId }, createdUserGroupId);
             }
             catch (HttpStatusException httpStatusException)
@@ -73,11 +73,11 @@ namespace TastingClubPL.Controllers
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         //[Authorize(Roles = RoleConstants.AdminRole)]
-        public async Task<IActionResult> DeleteUserGroups(int id)
+        public async Task<IActionResult> DeleteUserGroups(List<int> ids)
         {
             try
             {
-                await _userGroupService.DeleteUserGroupAsync(id);
+                await _userGroupService.DeleteUserGroupsAsync(ids);
                 return NoContent();
             }
             catch (HttpStatusException httpStatusException)

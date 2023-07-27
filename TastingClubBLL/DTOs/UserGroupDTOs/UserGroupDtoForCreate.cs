@@ -1,6 +1,4 @@
-﻿using TastingClubDAL.Enums;
-
-namespace TastingClubBLL.DTOs.UserGroupDTOs
+﻿namespace TastingClubBLL.DTOs.UserGroupDTOs
 {
     public class UserGroupDtoForCreate
     {
