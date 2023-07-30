@@ -1,10 +1,13 @@
-﻿using TastingClubDAL.Models.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using TastingClubDAL.Constants.ModelConstants.UserDrinkReviewConstants;
+using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.Models
 {
     public class UserDrinkReview : BaseModel
     {
         public string Review { get; set; }
+        [Range(UserDrinkReviewValueConstraintConstants.MinRating,UserDrinkReviewValueConstraintConstants.MaxRating)]
         public byte Rating { get; set; }
         public DateTime DateOfDegustation { get; set;}
         public string UserId { get; set; }

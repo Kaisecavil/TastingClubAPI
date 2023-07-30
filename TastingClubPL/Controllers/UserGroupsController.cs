@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using TastingClubBLL.DTOs.EventDrinkDTOs;
 using TastingClubBLL.DTOs.UserGroupDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
-using TastingClubBLL.Services;
 using TastingClubBLL.ViewModels.ApplicationUserViewModels;
 using TastingClubBLL.ViewModels.DrinkViewModels;
+using TastingClubBLL.ViewModels.GroupViewModels;
 
 namespace TastingClubPL.Controllers
 {
@@ -23,12 +22,12 @@ namespace TastingClubPL.Controllers
 
         // GET: api/UserGroup
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<DrinkGeneralViewModel>))]
-        public async Task<ActionResult<IEnumerable<ApplicationUserGeneralViewModel>>> GetUserGroup(int eventId)
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GroupGeneralViewModel>))]
+        public async Task<ActionResult<IEnumerable<GroupGeneralViewModel>>> GetUserGroup(string userId)
         {
             try
             {
-                return Ok(await _userGroupService.GetAllUserGroupsAsync(eventId));
+                return Ok(await _userGroupService.GetAllUserGroupsAsync(userId));
             }
             catch (HttpStatusException httpStatusException)
             {

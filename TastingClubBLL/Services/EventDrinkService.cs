@@ -31,7 +31,9 @@ namespace TastingClubBLL.Services
 
         public async Task DeleteEventDrinksAsync(List<int> ids)
         {
-            if (ids.Any(async id => _unitOfWork.EventDrinks.EntityExistsAsync(id)))
+            var allEntitiesExists = _unitOfWork.EventDrinks.GetAllQueryable(true)
+                .Select(eventDrink => eventDrink.Id).Intersect(ids).Count() == ids.Count;
+            if (!allEntitiesExists)
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "EventDrink not found");
             }

@@ -4,7 +4,6 @@ using TastingClubBLL.DTOs.EventParticipantDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.ViewModels.ApplicationUserViewModels;
-using TastingClubBLL.ViewModels.DrinkViewModels;
 using TastingClubDAL.Interfaces;
 using TastingClubDAL.Models;
 
@@ -32,7 +31,9 @@ namespace TastingClubBLL.Services
 
         public async Task DeleteEventParticipantAsync(List<int> ids)
         {
-            if (ids.Any(async id => !await _unitOfWork.EventParticipants.EntityExistsAsync(id)))
+            var allEntitiesExists = _unitOfWork.EventParticipants.GetAllQueryable(true)
+                .Select(eventParticipant => eventParticipant.Id).Intersect(ids).Count() == ids.Count;
+            if (!allEntitiesExists)
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "EventParticipant not found");
             }
@@ -42,10 +43,10 @@ namespace TastingClubBLL.Services
 
         public async Task<List<ApplicationUserGeneralViewModel>> GetAllEventParticipantAsync(int eventId)
         {
-            var drinks = _unitOfWork.EventParticipants.GetAllQueryable(true)
+            var users = _unitOfWork.EventParticipants.GetAllQueryable(true)
                 .Where(eventParticipant => eventParticipant.EventId == eventId)
                 .Select(eventParticipant => eventParticipant.User);
-            return _mapper.Map<List<DrinkGeneralViewModel>>(drinks);
+            return _mapper.Map<List<ApplicationUserGeneralViewModel>>(users);
         }
     }
 }

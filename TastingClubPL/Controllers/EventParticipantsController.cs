@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using TastingClubBLL.DTOs.EventDrinkDTOs;
 using TastingClubBLL.DTOs.EventParticipantDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;

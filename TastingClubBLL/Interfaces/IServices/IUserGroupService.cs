@@ -1,5 +1,6 @@
 ﻿using TastingClubBLL.DTOs.UserGroupDTOs;
-using TastingClubBLL.ViewModels.DrinkViewModels;
+using TastingClubBLL.ViewModels.ApplicationUserViewModels;
+using TastingClubBLL.ViewModels.GroupViewModels;
 
 namespace TastingClubBLL.Interfaces.IServices
 {
@@ -7,6 +8,7 @@ namespace TastingClubBLL.Interfaces.IServices
     {
         Task<int> CreateUserGroupsAsync(List<UserGroupDtoForCreate> userGroupsDtos);
         Task DeleteUserGroupsAsync(List<int> ids);
-        Task<List<DrinkGeneralViewModel>> GetAllUserGroupsAsync(int eventId);
+        Task<List<ApplicationUserGeneralViewModel>> GetAllGroupUsersAsync(int groupId);
+        Task<List<GroupGeneralViewModel>> GetAllUserGroupsAsync(string userId);
     }
 }

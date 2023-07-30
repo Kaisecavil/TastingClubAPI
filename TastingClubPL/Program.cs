@@ -61,7 +61,14 @@ namespace TastingClubPL
             //    provider.GetService<IStringLocalizerFactory>().Create("SharedResources", "MyWebApp"));
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IDrinkService, DrinkService>();
+            builder.Services.AddScoped<IDrinkSuitableProductService, DrinkSuitableProductService>();
+            builder.Services.AddScoped<IEventDrinkService, EventDrinkService>();
+            builder.Services.AddScoped<IEventParticipantService, EventParticipantService>();
             builder.Services.AddScoped<IEventService, EventService>();
+            builder.Services.AddScoped<IGroupService, GroupService>();
+            builder.Services.AddScoped<IUserDrinkReviewService, UserDrinkReviewService>();
+            builder.Services.AddScoped<IUserGroupService, UserGroupService>();
 
             builder.Services.AddAuthentication(options =>
             {

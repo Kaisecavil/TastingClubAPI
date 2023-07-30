@@ -1,5 +1,5 @@
 ﻿using TastingClubBLL.DTOs.EventParticipantDTOs;
-using TastingClubBLL.ViewModels.DrinkViewModels;
+using TastingClubBLL.ViewModels.ApplicationUserViewModels;
 
 namespace TastingClubBLL.Interfaces.IServices
 {
@@ -7,6 +7,6 @@ namespace TastingClubBLL.Interfaces.IServices
     {
         Task<int> CreateEventParticipantAsync(List<EventParticipantDtoForCreate> eventParticipantDtos);
         Task DeleteEventParticipantAsync(List<int> ids);
-        Task<List<DrinkGeneralViewModel>> GetAllEventParticipantAsync(int eventId);
+        Task<List<ApplicationUserGeneralViewModel>> GetAllEventParticipantAsync(int eventId);
     }
 }

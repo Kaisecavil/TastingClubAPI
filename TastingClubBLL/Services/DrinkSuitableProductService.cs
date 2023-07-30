@@ -2,6 +2,7 @@
 using System.Net;
 using TastingClubBLL.DTOs.DrinkSuitableProductDTOs;
 using TastingClubBLL.Exceptions;
+using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.ViewModels.DrinkSuitableProductViewModels;
 using TastingClubBLL.ViewModels.DrinkViewModels;
 using TastingClubDAL.Interfaces;
@@ -9,7 +10,7 @@ using TastingClubDAL.Models;
 
 namespace TastingClubBLL.Services
 {
-    public class DrinkSuitableProductService
+    public class DrinkSuitableProductService : IDrinkSuitableProductService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -31,7 +32,9 @@ namespace TastingClubBLL.Services
 
         public async Task DeleteDrinkSuitableProductsAsync(List<int> ids)
         {
-            if (ids.Any(async id => await !_unitOfWork.DrinkSuitableProducts.EntityExistsAsync(id)))
+            var allEntitiesExists = _unitOfWork.DrinkSuitableProducts.GetAllQueryable(true)
+                .Select(drinkSuitableProduct => drinkSuitableProduct.Id).Intersect(ids).Count() == ids.Count;
+            if (!allEntitiesExists)
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "DrinkSuitableProduct not found");
             }
