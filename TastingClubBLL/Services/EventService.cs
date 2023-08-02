@@ -23,6 +23,11 @@ namespace TastingClubBLL.Services
 
         public async Task<int> CreateEventAsync(EventDtoForCreate eventDto)
         {
+            if(!await _unitOfWork.Groups.EntityExistsAsync(eventDto.GruopId))
+            {
+                throw new HttpStatusException(HttpStatusCode.NotFound, $"Can't find group with id = {eventDto.GruopId}");
+            }
+
             var mappedEvent = _mapper.Map<Event>(eventDto);
             await _unitOfWork.Events.CreateAsync(mappedEvent);
             await _unitOfWork.SaveAsync();
@@ -41,13 +46,13 @@ namespace TastingClubBLL.Services
 
         public async Task<List<EventGeneralViewModel>> GetAllEventsAsync()
         {
-            var events = await _unitOfWork.Events.GetAllAsync();
+            var events = await _unitOfWork.Events.GetAllAsync(true);
             return _mapper.Map<List<EventGeneralViewModel>>(events);
         }
 
         public async Task<EventDetailViewModel> GetEventAsync(int id)
         {
-            var entity = await _unitOfWork.Events.GetAsync(id);
+            var entity = await _unitOfWork.Events.GetAsync(id,true);
             if (entity == null)
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "Event not found");

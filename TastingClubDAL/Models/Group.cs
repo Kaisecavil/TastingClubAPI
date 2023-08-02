@@ -1,5 +1,4 @@
 ﻿using TastingClubDAL.Enums;
-using TastingClubDAL.Interfaces.IModel;
 using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.Models

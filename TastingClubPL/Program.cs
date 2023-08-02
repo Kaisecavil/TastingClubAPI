@@ -160,7 +160,7 @@ namespace TastingClubPL
             app.Run();
         }
 
-        private async void SeedData(IHost app)
+        private static async void SeedData(IHost app)
         {
             var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 

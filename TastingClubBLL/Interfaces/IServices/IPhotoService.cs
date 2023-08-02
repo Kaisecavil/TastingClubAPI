@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using TastingClubDAL.Interfaces.IModel;
-using TastingClubDAL.Models.Base;
-using TastingClubDAL.Repositories;
 
 namespace TastingClubBLL.Interfaces.IServices
 {

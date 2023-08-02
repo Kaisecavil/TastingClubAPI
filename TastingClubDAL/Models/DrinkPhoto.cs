@@ -8,6 +8,7 @@ namespace TastingClubDAL.Models
         public int PhotoId { get; set; }
         public virtual Photo Photo { get; set; }
         public int DrinkId { get; set; }
+        public int EntityId { get; set; }
         public virtual Drink Drink { get; set; }
     }
 }

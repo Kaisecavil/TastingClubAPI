@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TastingClubBLL.DTOs.ProducingCountryDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.ViewModels.ProducingCountryViewModels;
 using TastingClubDAL.Interfaces;
+using TastingClubDAL.Models;
 
 namespace TastingClubBLL.Services
 {

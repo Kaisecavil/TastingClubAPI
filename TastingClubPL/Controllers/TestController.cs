@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TastingClubPL.Controllers
 {
@@ -8,6 +7,7 @@ namespace TastingClubPL.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+
         [HttpGet]
         public async Task<ActionResult<string>> GetTest(string drinkType = null, string country = null, string price = null)
         {

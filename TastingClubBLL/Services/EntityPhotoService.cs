@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubDAL.Interfaces;
 using TastingClubDAL.Interfaces.IModel;

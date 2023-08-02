@@ -1,18 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 using TastingClubBLL.Interfaces.IHelper;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubDAL.Interfaces;
-using TastingClubDAL.Interfaces.IModel;
-using TastingClubDAL.Models;
 using TastingClubDAL.Models.Base;
-using TastingClubDAL.Repositories;
 
 namespace TastingClubBLL.Services
 {

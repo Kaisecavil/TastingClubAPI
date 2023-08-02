@@ -20,9 +20,12 @@ namespace TastingClubDAL.UnitOfWork
         private IBaseRepository<UserGroup> _userGroupRepository;
         private IBaseRepository<EventParticipant> _eventParticipantRepository;
         private IBaseRepository<DrinkSuitableProduct> _drinkSuitableProductRepository;
+        private IBaseRepository<SuitableProduct> _suitableProductRepository;
         private IBaseRepository<Photo> _photoRepository;
         private IBaseRepository<ProducingCountry> _producingCountryRepository;
-        private IBaseRepository<DrinkBrand> _brinkRepository;
+        private IBaseRepository<DrinkBrand> _drinkBrandRepository;
+        private IBaseRepository<DrinkType> _drinkTypeRepository;
+        private IBaseRepository<Producer> _producerRepository;
 
         public UnitOfWork(ApplicationContext db)
         {
@@ -122,7 +125,7 @@ namespace TastingClubDAL.UnitOfWork
             }
         }
 
-        public IBaseRepository<Photo> ProducingCountries
+        public IBaseRepository<Photo> Photos
         {
             get
             {
@@ -152,6 +155,56 @@ namespace TastingClubDAL.UnitOfWork
             }
         }
 
+        public IBaseRepository<DrinkPhoto> DrinkPhotos
+        {
+            get
+            {
+                if (_drinkPhotoRepository == null)
+                    _drinkPhotoRepository = new BaseRepository<DrinkPhoto>(_db);
+                return _drinkPhotoRepository;
+            }
+        }
+
+        public IBaseRepository<Producer> Producers
+        {
+            get
+            {
+                if (_producerRepository == null)
+                    _producerRepository = new BaseRepository<Producer>(_db);
+                return _producerRepository;
+            }
+        }
+
+        public IBaseRepository<GroupPhoto> GroupPhotos
+        {
+            get
+            {
+                if (_groupPhotoRepository == null)
+                    _groupPhotoRepository = new BaseRepository<GroupPhoto>(_db);
+                return _groupPhotoRepository;
+            }
+        }
+
+        public IBaseRepository<SuitableProduct> SuitableProducts
+        {
+            get
+            {
+                if (_suitableProductRepository == null)
+                    _suitableProductRepository = new BaseRepository<SuitableProduct>(_db);
+                return _suitableProductRepository;
+            }
+        }
+
+        public IBaseRepository<DrinkType> DrinkTypes
+        {
+            get
+            {
+                if(_drinkTypeRepository == null)
+                    _drinkTypeRepository = new BaseRepository<DrinkType>(_db);
+                return _drinkTypeRepository;
+            }
+        }
+
         public int Save()
         {
             return _db.SaveChanges();
@@ -163,6 +216,7 @@ namespace TastingClubDAL.UnitOfWork
         }
 
         private bool disposed = false;
+        
 
         public virtual void Dispose(bool disposing)
         {

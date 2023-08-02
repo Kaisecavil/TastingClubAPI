@@ -29,6 +29,7 @@ namespace TastingClubDAL.Database
                 },
 
             };
+            _unitOfWork.Groups.CreateRange(groups);
             #endregion Groups
 
             #region suitableProducts
@@ -79,6 +80,7 @@ namespace TastingClubDAL.Database
                     Title = "Lamb"
                 }
             };
+            _unitOfWork.SuitableProducts.CreateRange(suitableProducts);
             #endregion suitableProducts
 
             #region drinkTypes
@@ -113,6 +115,7 @@ namespace TastingClubDAL.Database
                     Title = "Vodka"
                 }
             };
+            _unitOfWork.DrinkTypes.CreateRange(drinkTypes);
             #endregion drinkTypes
 
             #region producingCounties
@@ -151,6 +154,7 @@ namespace TastingClubDAL.Database
                     Name = "Spain"
                 }
             };
+            _unitOfWork.ProducingCountries.CreateRange(producingCountries);
             #endregion producingCounties
 
             #region producers
@@ -189,6 +193,7 @@ namespace TastingClubDAL.Database
                     Name = "Veuve Clicquot"
                 }
             };
+            _unitOfWork.Producers.CreateRange(producers);
             #endregion producers
 
             #region drinkBrands
@@ -227,6 +232,7 @@ namespace TastingClubDAL.Database
                     Name = "Mondoro"
                 }
             };
+            _unitOfWork.DrinkBrands.CreateRange(drinkBrands);
             #endregion drinkBrands
 
             #region Drinks

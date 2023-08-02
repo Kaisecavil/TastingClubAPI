@@ -7,6 +7,9 @@ namespace TastingClubDAL.Interfaces
     {
         IBaseRepository<DrinkPhoto> DrinkPhotos { get; }
         IBaseRepository<Drink> Drinks { get; }
+        IBaseRepository<DrinkBrand> DrinkBrands { get; }
+        IBaseRepository<Producer> Producers { get; }
+        IBaseRepository<ProducingCountry> ProducingCountries { get; }
         IBaseRepository<EventDrink> EventDrinks { get; }
         IBaseRepository<EventParticipant> EventParticipants { get; }
         IBaseRepository<Event> Events { get; }
@@ -15,6 +18,8 @@ namespace TastingClubDAL.Interfaces
         IBaseRepository<UserDrinkReview> UserDrinkReviews { get; }
         IBaseRepository<UserGroup> UserGroups { get; }
         IBaseRepository<DrinkSuitableProduct> DrinkSuitableProducts { get; }
+        IBaseRepository<SuitableProduct> SuitableProducts { get; }
+        IBaseRepository<DrinkType> DrinkTypes { get; }
         IBaseRepository<Photo> Photos { get; }
 
         void Dispose();

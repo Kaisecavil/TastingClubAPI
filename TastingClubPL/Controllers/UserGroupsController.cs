@@ -3,8 +3,6 @@ using System.Net;
 using TastingClubBLL.DTOs.UserGroupDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
-using TastingClubBLL.ViewModels.ApplicationUserViewModels;
-using TastingClubBLL.ViewModels.DrinkViewModels;
 using TastingClubBLL.ViewModels.GroupViewModels;
 
 namespace TastingClubPL.Controllers
