@@ -14,6 +14,8 @@ using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.Services;
 using AutoMapper;
 using TastingClubBLL.Helpers;
+using TastingClubBLL.DTOs.ApplicationUserDTOs;
+using TastingClubBLL.Constants;
 
 namespace TastingClubPL
 {
@@ -102,7 +104,7 @@ namespace TastingClubPL
 
             builder.Services.AddControllers();
 
-            //builder.Services.AddTransient<Seed>();
+            builder.Services.AddTransient<Seed>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -137,6 +139,9 @@ namespace TastingClubPL
 
             var app = builder.Build();
 
+            if (args.Length == 1 && args[0].ToLower() == "seeddata")
+                SeedData(app);
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -153,6 +158,42 @@ namespace TastingClubPL
             app.MapControllers();
 
             app.Run();
+        }
+
+        private async void SeedData(IHost app)
+        {
+            var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+            using (var scope = scopedFactory.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var roles = new[] {
+                        RoleConstants.AdminRole,
+                        RoleConstants.UserRole
+                    };
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+
+                var adminUser = new ApplicationUserDtoForLogin() { Email = "Admin@mail.com", Password = "P@ssw0rd" };
+                var userUser = new ApplicationUserDtoForLogin() { Email = "User@mail.com", Password = "P@ssw0rd" };
+                await authService.RegisterUserAsync(adminUser);
+                await authService.RegisterUserAsync(userUser);
+
+
+                await userManager.AddToRoleAsync(await userManager.FindByEmailAsync(adminUser.Email), RoleConstants.AdminRole);
+                await userManager.AddToRoleAsync(await userManager.FindByEmailAsync(userUser.Email), RoleConstants.UserRole);
+                var service = scope.ServiceProvider.GetService<Seed>();
+                service.SeedApplicationContextAsync();
+
+            }
         }
     }
 }

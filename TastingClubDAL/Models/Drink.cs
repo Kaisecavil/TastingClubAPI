@@ -8,7 +8,6 @@ namespace TastingClubDAL.Models
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        //public float Volume { get; set; }
         [Range((double)DrinkValueConstraintConstants.MinPrice, (double)decimal.MaxValue)]
         public decimal Price { get; set; }
 

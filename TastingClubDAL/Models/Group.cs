@@ -1,4 +1,5 @@
 ﻿using TastingClubDAL.Enums;
+using TastingClubDAL.Interfaces.IModel;
 using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.Models
@@ -9,5 +10,6 @@ namespace TastingClubDAL.Models
         public string Description { get; set; }
         public GroupAccessType AccessType { get; set; }
         public virtual List<Event> Events { get; } = new();
+        public virtual List<GroupPhoto> Photos { get; } = new();
     }
 }

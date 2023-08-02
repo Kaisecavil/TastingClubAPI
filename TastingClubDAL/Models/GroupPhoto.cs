@@ -1,10 +1,12 @@
-﻿using TastingClubDAL.Models.Base;
+﻿using TastingClubDAL.Interfaces.IModel;
+using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.Models
 {
-    public class GroupPhoto : BaseModel
+    public class GroupPhoto : BaseModel, IPhotoModel
     {
-        public string PhotoPath { get; set; }
+        public int PhotoId { get; set; }
+        public virtual Photo Photo { get; set; }
         public int GroupId { get; set; }
         public virtual Group Group { get; set; }
     }

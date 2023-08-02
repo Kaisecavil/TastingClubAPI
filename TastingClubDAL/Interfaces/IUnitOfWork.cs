@@ -1,4 +1,5 @@
 ﻿using TastingClubDAL.Models;
+using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.Interfaces
 {
@@ -14,6 +15,7 @@ namespace TastingClubDAL.Interfaces
         IBaseRepository<UserDrinkReview> UserDrinkReviews { get; }
         IBaseRepository<UserGroup> UserGroups { get; }
         IBaseRepository<DrinkSuitableProduct> DrinkSuitableProducts { get; }
+        IBaseRepository<Photo> Photos { get; }
 
         void Dispose();
         void Dispose(bool disposing);

@@ -2,6 +2,7 @@
 using TastingClubDAL.Interfaces;
 using TastingClubDAL.Repositories;
 using TastingClubDAL.Models;
+using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.UnitOfWork
 {
@@ -19,6 +20,9 @@ namespace TastingClubDAL.UnitOfWork
         private IBaseRepository<UserGroup> _userGroupRepository;
         private IBaseRepository<EventParticipant> _eventParticipantRepository;
         private IBaseRepository<DrinkSuitableProduct> _drinkSuitableProductRepository;
+        private IBaseRepository<Photo> _photoRepository;
+        private IBaseRepository<ProducingCountry> _producingCountryRepository;
+        private IBaseRepository<DrinkBrand> _brinkRepository;
 
         public UnitOfWork(ApplicationContext db)
         {
@@ -61,7 +65,7 @@ namespace TastingClubDAL.UnitOfWork
                 return _userDrinkReviewRepository;
             }
         }
-        public IBaseRepository<DrinkPhoto> DrinkPhotos
+        public IBaseRepository<DrinkPhoto> DrinkProducingCountries
         {
             get
             {
@@ -70,7 +74,7 @@ namespace TastingClubDAL.UnitOfWork
                 return _drinkPhotoRepository;
             }
         }
-        public IBaseRepository<GroupPhoto> GroupPhotos
+        public IBaseRepository<GroupPhoto> GroupProducingCountries
         {
             get
             {
@@ -115,6 +119,36 @@ namespace TastingClubDAL.UnitOfWork
                 if (_drinkSuitableProductRepository == null)
                     _drinkSuitableProductRepository = new BaseRepository<DrinkSuitableProduct>(_db);
                 return _drinkSuitableProductRepository;
+            }
+        }
+
+        public IBaseRepository<Photo> ProducingCountries
+        {
+            get
+            {
+                if (_photoRepository == null)
+                    _photoRepository = new BaseRepository<Photo>(_db);
+                return _photoRepository;
+            }
+        }
+
+        public IBaseRepository<ProducingCountry> ProducingCountries
+        {
+            get
+            {
+                if (_producingCountryRepository == null)
+                    _producingCountryRepository = new BaseRepository<ProducingCountry>(_db);
+                return _producingCountryRepository;
+            }
+        }
+
+        public IBaseRepository<DrinkBrand> DrinkBrands
+        {
+            get
+            {
+                if (_drinkBrandRepository == null)
+                    _drinkBrandRepository = new BaseRepository<DrinkBrand>(_db);
+                return _drinkBrandRepository;
             }
         }
 
