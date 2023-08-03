@@ -2,6 +2,7 @@
 using System.Net;
 using TastingClubBLL.DTOs.UserDrinkReviewDTOs;
 using TastingClubBLL.Exceptions;
+using TastingClubBLL.Interfaces.IProvider;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.ViewModels.UserDrinkReviewViewModels;
 using TastingClubDAL.Interfaces;
@@ -13,12 +14,15 @@ namespace TastingClubBLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IApplicationUserProvider _userProvider;
 
         public UserDrinkReviewService(IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            IApplicationUserProvider userProvider)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userProvider = userProvider;
         }
 
         public async Task<int> CreateUserDrinkReviewAsync(UserDrinkReviewDtoForCreate userDrinkReviewDto)
@@ -35,6 +39,13 @@ namespace TastingClubBLL.Services
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "UserDrinkReview not found");
             }
+            var currentUserId = await _userProvider.GetUserIdAsync();
+            var userDrinkreviewToDelete = await _unitOfWork.UserDrinkReviews.GetAsync(id);
+            if (userDrinkreviewToDelete.UserId != currentUserId)
+            {
+                throw new HttpStatusException(HttpStatusCode.Forbidden, "You can't delete reviews of other users");
+            }
+
             await _unitOfWork.UserDrinkReviews.DeleteAsync(id);
             await _unitOfWork.SaveAsync();
         }
@@ -61,6 +72,14 @@ namespace TastingClubBLL.Services
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "UserDrinkReview not found");
             }
+
+            var currentUserId = await _userProvider.GetUserIdAsync();
+            var userDrinkreviewToUpdate = await _unitOfWork.UserDrinkReviews.GetAsync(userDrinkReviewDto.Id);
+            if (userDrinkreviewToUpdate.UserId != currentUserId)
+            {
+                throw new HttpStatusException(HttpStatusCode.BadRequest, "You can't update reviews of other users");
+            }
+
             await _unitOfWork.UserDrinkReviews.UpdateAsync(_mapper.Map<UserDrinkReview>(userDrinkReviewDto));
             await _unitOfWork.SaveAsync();
         }

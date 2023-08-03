@@ -2,6 +2,7 @@
 using System.Net;
 using TastingClubBLL.DTOs.EventDTOs;
 using TastingClubBLL.Exceptions;
+using TastingClubBLL.Interfaces.IProvider;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.ViewModels.EventViewModels;
 using TastingClubDAL.Interfaces;
@@ -13,12 +14,18 @@ namespace TastingClubBLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IApplicationUserProvider _userProvider;
+        private readonly IUserGroupService _userGroupService;
 
         public EventService(IUnitOfWork unitOfWork,
-            IMapper mapper)
+            IMapper mapper,
+            IApplicationUserProvider userProvider,
+            IUserGroupService usergroupService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userProvider = userProvider;
+            _userGroupService = usergroupService;
         }
 
         public async Task<int> CreateEventAsync(EventDtoForCreate eventDto)
@@ -27,7 +34,6 @@ namespace TastingClubBLL.Services
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, $"Can't find group with id = {eventDto.GruopId}");
             }
-
             var mappedEvent = _mapper.Map<Event>(eventDto);
             await _unitOfWork.Events.CreateAsync(mappedEvent);
             await _unitOfWork.SaveAsync();
@@ -39,6 +45,12 @@ namespace TastingClubBLL.Services
             if(!await _unitOfWork.Events.EntityExistsAsync(id))
             {
                 throw new HttpStatusException(HttpStatusCode.NotFound, "Event not found"); 
+            }
+            var currentUserId = await _userProvider.GetUserIdAsync();
+            var eventToDeleteGroupAdmin  = await _userGroupService.GetGroupAdminAsync(id);
+            if (eventToDeleteGroupAdmin.Id != currentUserId)
+            {
+                throw new HttpStatusException(HttpStatusCode.BadRequest, "You can't delete events of groups due to lack of your rights in this group");
             }
             await _unitOfWork.Events.DeleteAsync(id);
             await _unitOfWork.SaveAsync();

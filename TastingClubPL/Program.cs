@@ -16,6 +16,7 @@ using AutoMapper;
 using TastingClubBLL.Helpers;
 using TastingClubBLL.DTOs.ApplicationUserDTOs;
 using TastingClubBLL.Constants;
+using TastingClubDAL.Constants.ModelConstants.ApplicationUserConstants;
 
 namespace TastingClubPL
 {
@@ -182,8 +183,16 @@ namespace TastingClubPL
                     }
                 }
 
-                var adminUser = new ApplicationUserDtoForLogin() { Email = "Admin@mail.com", Password = "P@ssw0rd" };
-                var userUser = new ApplicationUserDtoForLogin() { Email = "User@mail.com", Password = "P@ssw0rd" };
+                var adminUser = new ApplicationUserDtoForRegister()
+                {
+                    Email = ApplicationUserDefaultValueConstants.DefaultAdminEmail,
+                    Password = ApplicationUserDefaultValueConstants.DefaultAdminPassword
+                };
+                var userUser = new ApplicationUserDtoForRegister() 
+                {
+                    Email = ApplicationUserDefaultValueConstants.DefaultUserEmail,
+                    Password = ApplicationUserDefaultValueConstants.DefaultUserPassword
+                };
                 await authService.RegisterUserAsync(adminUser);
                 await authService.RegisterUserAsync(userUser);
 

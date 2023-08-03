@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -17,12 +18,15 @@ namespace TastingClubBLL.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
 
         public AuthService(UserManager<ApplicationUser> userManager,
-            IConfiguration config)
+            IConfiguration config,
+            IMapper mapper)
         {
             _userManager = userManager;
             _config = config;
+            _mapper = mapper;
         }
 
         public string GenerateTokenString(ApplicationUserDtoForLogin user, IEnumerable<string> roles)
@@ -68,7 +72,7 @@ namespace TastingClubBLL.Services
 
 
 
-        public async Task<bool> RegisterUserAsync(ApplicationUserDtoForLogin user)
+        public async Task<bool> RegisterUserAsync(ApplicationUserDtoForRegister user)
         {
             var existingUser = _userManager.Users.FirstOrDefault(u => u.Email == user.Email);
 
@@ -82,7 +86,10 @@ namespace TastingClubBLL.Services
                 UserName = user.Email,
                 Email = user.Email
             };
-            var result = await _userManager.CreateAsync(identityUser, user.Password);
+
+            // mb mapp?
+            var mappedUser = _mapper.Map<ApplicationUser>(user);
+            var result = await _userManager.CreateAsync(mappedUser, user.Password);
             return result.Succeeded;
         }
 

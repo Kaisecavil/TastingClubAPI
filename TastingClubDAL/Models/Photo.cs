@@ -1,4 +1,6 @@
-﻿namespace TastingClubDAL.Models.Base
+﻿using TastingClubDAL.Models.Base;
+
+namespace TastingClubDAL.Models
 {
     public class Photo : BaseModel
     {

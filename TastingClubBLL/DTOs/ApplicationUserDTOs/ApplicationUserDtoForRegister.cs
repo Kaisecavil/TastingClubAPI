@@ -4,9 +4,8 @@ using TastingClubDAL.Constants.ModelConstants.ApplicationUserConstants;
 
 namespace TastingClubBLL.DTOs.ApplicationUserDTOs
 {
-    public class ApplicationUserDtoForUpdate
+    public class ApplicationUserDtoForRegister
     {
-        //in process
         [Required]
         [DefaultValue(ApplicationUserDefaultValueConstants.DefaultAdminEmail)]
         public string Email { get; set; }

@@ -6,6 +6,6 @@ namespace TastingClubBLL.Interfaces.IServices
     {
         string GenerateTokenString(ApplicationUserDtoForLogin user, IEnumerable<string> roles);
         Task<string> LoginAsync(ApplicationUserDtoForLogin user);
-        Task<bool> RegisterUserAsync(ApplicationUserDtoForLogin user);
+        Task<bool> RegisterUserAsync(ApplicationUserDtoForRegister user);
     }
 }

@@ -2,7 +2,6 @@
 using TastingClubDAL.Interfaces;
 using TastingClubDAL.Repositories;
 using TastingClubDAL.Models;
-using TastingClubDAL.Models.Base;
 
 namespace TastingClubDAL.UnitOfWork
 {
