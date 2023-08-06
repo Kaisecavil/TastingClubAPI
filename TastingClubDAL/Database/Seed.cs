@@ -1,4 +1,5 @@
-﻿using TastingClubDAL.Interfaces;
+﻿using TastingClubDAL.Enums;
+using TastingClubDAL.Interfaces;
 using TastingClubDAL.Models;
 
 namespace TastingClubDAL.Database
@@ -10,7 +11,7 @@ namespace TastingClubDAL.Database
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task SeedApplicationContextAsync()
+        public async Task SeedApplicationContextAsync(List<string> userIds)
         {
             #region Groups
             var groups = new List<Group>()
@@ -30,6 +31,7 @@ namespace TastingClubDAL.Database
 
             };
             _unitOfWork.Groups.CreateRange(groups);
+            //await _unitOfWork.SaveAsync();
             #endregion Groups
 
             #region suitableProducts
@@ -81,6 +83,7 @@ namespace TastingClubDAL.Database
                 }
             };
             _unitOfWork.SuitableProducts.CreateRange(suitableProducts);
+            await _unitOfWork.SaveAsync();
             #endregion suitableProducts
 
             #region drinkTypes
@@ -116,6 +119,7 @@ namespace TastingClubDAL.Database
                 }
             };
             _unitOfWork.DrinkTypes.CreateRange(drinkTypes);
+            await _unitOfWork.SaveAsync();
             #endregion drinkTypes
 
             #region producingCounties
@@ -155,6 +159,7 @@ namespace TastingClubDAL.Database
                 }
             };
             _unitOfWork.ProducingCountries.CreateRange(producingCountries);
+            await _unitOfWork.SaveAsync();
             #endregion producingCounties
 
             #region producers
@@ -194,6 +199,7 @@ namespace TastingClubDAL.Database
                 }
             };
             _unitOfWork.Producers.CreateRange(producers);
+            await _unitOfWork.SaveAsync();
             #endregion producers
 
             #region drinkBrands
@@ -233,7 +239,10 @@ namespace TastingClubDAL.Database
                 }
             };
             _unitOfWork.DrinkBrands.CreateRange(drinkBrands);
+            await _unitOfWork.SaveAsync();
             #endregion drinkBrands
+
+            _unitOfWork.Save();
 
             #region Drinks
             var drinks = new List<Drink>
@@ -249,10 +258,10 @@ namespace TastingClubDAL.Database
                     Taste = "Sweet",
                     Aroma = "Fruity",
                     Gastronomy = "Pairs well with desserts.",
-                    DrinkTypeId = 1, // Replace with appropriate DrinkType ID
-                    ProducingCountryId = 1, // Replace with appropriate ProducingCountry ID
-                    ProducerId = 1, // Replace with appropriate Producer ID
-                    DrinkBrandId = 1, // Replace with appropriate DrinkBrand ID
+                    DrinkTypeId = drinkTypes[0].Id,
+                    ProducingCountryId = producingCountries[0].Id, 
+                    ProducerId = producers[0].Id, 
+                    DrinkBrandId = drinkBrands[0].Id, 
                 },
                 new Drink
                 {
@@ -265,13 +274,30 @@ namespace TastingClubDAL.Database
                     Taste = "Bitter",
                     Aroma = "Hoppy",
                     Gastronomy = "Goes well with spicy food.",
-                    DrinkTypeId = 2, // Replace with appropriate DrinkType ID
-                    ProducingCountryId = 2, // Replace with appropriate ProducingCountry ID
-                    ProducerId = 2, // Replace with appropriate Producer ID
-                    DrinkBrandId = 2, // Replace with appropriate DrinkBrand ID
+                    DrinkTypeId = drinkTypes[1].Id,
+                    ProducingCountryId = producingCountries[1].Id,
+                    ProducerId = producers[1].Id,
+                    DrinkBrandId = drinkBrands[1].Id,
+                },
+                new Drink
+                {
+                    Title = "Sample Drink 3",
+                    Description = "Another sample drink. 3",
+                    Price = 9.99m,
+                    AlcoholPercentage = 7.5f,
+                    Rating = 8.2f,
+                    Color = "Gold",
+                    Taste = "Bitter",
+                    Aroma = "Hoppy",
+                    Gastronomy = "Goes well with sour food.",
+                    DrinkTypeId = drinkTypes[2].Id,
+                    ProducingCountryId = producingCountries[2].Id,
+                    ProducerId = producers[2].Id,
+                    DrinkBrandId = drinkBrands[2].Id,
                 }
                 // Add more sample drinks as needed
             };
+            await _unitOfWork.SaveAsync();
             #endregion Drinks
 
             #region drinkSuitableProduct
@@ -279,43 +305,153 @@ namespace TastingClubDAL.Database
             {
                 new DrinkSuitableProduct
                 {
-                    DrinkId= 1,
-                    SuitableProductId= 1
-                }
-            };
-            #endregion drinkSuitableProduct
-
-            #region eventDrink
-            var eventDrinks = new List<EventDrink>
-            {
-                new EventDrink
+                    DrinkId= drinks[0].Id,
+                    SuitableProductId= suitableProducts[0].Id
+                },
+                new DrinkSuitableProduct
                 {
-                    DrinkId = 1,
-                    EventId = 1
+                    DrinkId= drinks[0].Id,
+                    SuitableProductId= suitableProducts[1].Id
+                },
+                new DrinkSuitableProduct
+                {
+                    DrinkId= drinks[0].Id,
+                    SuitableProductId= suitableProducts[2].Id
+                },
+                new DrinkSuitableProduct
+                {
+                    DrinkId= drinks[1].Id,
+                    SuitableProductId= suitableProducts[0].Id
+                },
+                new DrinkSuitableProduct
+                {
+                    DrinkId= drinks[1].Id,
+                    SuitableProductId= suitableProducts[1].Id
                 }
             };
-            #endregion eventDrink
+            await _unitOfWork.SaveAsync();
+            #endregion drinkSuitableProduct
 
             #region events
             var events = new List<Event>
             {
                 new Event
                 {
-                    Date= new DateTime(),
-                    Description = "",
-                    GruopId = 1,
-                    Title = "",
+                    Date = DateTime.Now,
+                    Description = "The best event ever 1",
+                    GruopId = groups[0].Id,
+                    Title = "YaggerMeister Party",
                     Status = Enums.EventStatus.Planned
+                },
+                new Event
+                {
+                    Date = DateTime.Now,
+                    Description = "The best event ever 2",
+                    GruopId = groups[0].Id,
+                    Title = "Lidsokoe funs party",
+                    Status = Enums.EventStatus.Canceled
+                },
+                new Event
+                {
+                    Date = DateTime.Now,
+                    Description = "The best event ever 3",
+                    GruopId = groups[0].Id,
+                    Title = "Garage Enjoyers",
+                    Status = Enums.EventStatus.InReview
                 }
             };
+            await _unitOfWork.SaveAsync();
             #endregion events
 
+            #region eventDrink
+            var eventDrinks = new List<EventDrink>
+            {
+                new EventDrink
+                {
+                    DrinkId = drinks[0].Id,
+                    EventId = events[0].Id
+                },
+                new EventDrink
+                {
+                    DrinkId = drinks[0].Id,
+                    EventId = events[1].Id
+                },
+                new EventDrink
+                {
+                    DrinkId = drinks[0].Id,
+                    EventId = events[2].Id
+                },
+                new EventDrink
+                {
+                    DrinkId = drinks[1].Id,
+                    EventId = events[0].Id
+                },
+                new EventDrink
+                {
+                    DrinkId = drinks[1].Id,
+                    EventId = events[1].Id
+                }
+            };
+            await _unitOfWork.SaveAsync();
+            #endregion eventDrink
+
             #region eventPartisipants
-            //?
+            var eventParticipants = new List<EventParticipant>
+            {
+                new EventParticipant()
+                {
+                    UserId = userIds[0],
+                    EventId = events[0].Id,
+                    Status = EventPartisipantStatus.Approved
+                },
+                new EventParticipant()
+                {
+                    UserId = userIds[0],
+                    EventId = events[1].Id,
+                    Status = EventPartisipantStatus.NotResponded
+                },
+                new EventParticipant()
+                {
+                    UserId = userIds[1],
+                    EventId = events[0].Id,
+                    Status = EventPartisipantStatus.Declined
+                },
+                new EventParticipant()
+                {
+                    UserId = userIds[1],
+                    EventId = events[1].Id,
+                    Status = EventPartisipantStatus.Approved
+                },
+            };
+            await _unitOfWork.SaveAsync();
             #endregion eventPartisipants
 
             #region userGroups
-            //?
+            var userGroups = new List<UserGroup>
+            {
+                new UserGroup()
+                {
+                    GroupId = groups[0].Id,
+                    UserId = userIds[0],
+                    Role = UserGroupRole.Admin,
+                    Status = GroupMembershipStatus.Member
+                },
+                new UserGroup()
+                {
+                    GroupId = groups[1].Id,
+                    UserId = userIds[1],
+                    Role = UserGroupRole.Admin,
+                    Status = GroupMembershipStatus.Member
+                },
+                new UserGroup()
+                {
+                    GroupId = groups[0].Id,
+                    UserId = userIds[1],
+                    Role = UserGroupRole.Partisipant,
+                    Status = GroupMembershipStatus.Member
+                }
+            };
+            await _unitOfWork.SaveAsync();
             #endregion userDrinkReviews
         }
     }

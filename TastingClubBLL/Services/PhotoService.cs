@@ -2,6 +2,7 @@
 using TastingClubBLL.Interfaces.IHelper;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubDAL.Interfaces;
+using TastingClubDAL.Models;
 
 namespace TastingClubBLL.Services
 {

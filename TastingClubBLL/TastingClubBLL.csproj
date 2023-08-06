@@ -25,7 +25,6 @@
 	<ItemGroup>
 		<Folder Include="DTOs\DrinkBrandDTOs\" />
 		<Folder Include="Resources\ru-RU\" />
-		<Folder Include="ViewModels\PhotoViewModels\" />
 	</ItemGroup>
 
 </Project>

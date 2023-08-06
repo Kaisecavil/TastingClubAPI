@@ -42,7 +42,7 @@ namespace TastingClubPL.Controllers
         [HttpPost("Register")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Register(ApplicationUserDtoForLogin user)
+        public async Task<IActionResult> Register(ApplicationUserDtoForRegister user)
         {
             try
             {

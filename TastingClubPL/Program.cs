@@ -17,6 +17,8 @@ using TastingClubBLL.Helpers;
 using TastingClubBLL.DTOs.ApplicationUserDTOs;
 using TastingClubBLL.Constants;
 using TastingClubDAL.Constants.ModelConstants.ApplicationUserConstants;
+using TastingClubBLL.Interfaces.IProvider;
+using TastingClubDAL.Providers;
 
 namespace TastingClubPL
 {
@@ -72,6 +74,8 @@ namespace TastingClubPL
             builder.Services.AddScoped<IGroupService, GroupService>();
             builder.Services.AddScoped<IUserDrinkReviewService, UserDrinkReviewService>();
             builder.Services.AddScoped<IUserGroupService, UserGroupService>();
+            builder.Services.AddScoped<IUserGroupService, UserGroupService>();
+            builder.Services.AddScoped<IApplicationUserProvider, ApplicationUserProvider>();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -186,21 +190,35 @@ namespace TastingClubPL
                 var adminUser = new ApplicationUserDtoForRegister()
                 {
                     Email = ApplicationUserDefaultValueConstants.DefaultAdminEmail,
-                    Password = ApplicationUserDefaultValueConstants.DefaultAdminPassword
+                    Password = ApplicationUserDefaultValueConstants.DefaultAdminPassword,
+                    ConfirmedPassword = ApplicationUserDefaultValueConstants.DefaultAdminPassword,
+                    FirstName = "FirstNametest", LastName = "lastNameTest"
+                  
                 };
                 var userUser = new ApplicationUserDtoForRegister() 
                 {
                     Email = ApplicationUserDefaultValueConstants.DefaultUserEmail,
-                    Password = ApplicationUserDefaultValueConstants.DefaultUserPassword
+                    Password = ApplicationUserDefaultValueConstants.DefaultUserPassword,
+                    ConfirmedPassword = ApplicationUserDefaultValueConstants.DefaultUserPassword,
+                    FirstName = "FirstNametest",
+                    LastName = "lastNameTest"
                 };
-                await authService.RegisterUserAsync(adminUser);
-                await authService.RegisterUserAsync(userUser);
+                try
+                {
+                    await authService.RegisterUserAsync(adminUser);
+                    await authService.RegisterUserAsync(userUser);
+                }
+                catch(DbUpdateException ex)
+                {
+                    
+                }
 
 
-                await userManager.AddToRoleAsync(await userManager.FindByEmailAsync(adminUser.Email), RoleConstants.AdminRole);
-                await userManager.AddToRoleAsync(await userManager.FindByEmailAsync(userUser.Email), RoleConstants.UserRole);
+                await userManager.AddToRoleAsync(userManager.FindByEmailAsync(adminUser.Email).Result, RoleConstants.AdminRole);
+                await userManager.AddToRoleAsync(userManager.FindByEmailAsync(userUser.Email).Result, RoleConstants.UserRole);
                 var service = scope.ServiceProvider.GetService<Seed>();
-                service.SeedApplicationContextAsync();
+                var userIds = userManager.Users.Select(u => u.Id).ToList();
+                service.SeedApplicationContextAsync(userIds);
 
             }
         }

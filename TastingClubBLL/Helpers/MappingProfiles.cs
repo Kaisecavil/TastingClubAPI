@@ -47,6 +47,7 @@ namespace TastingClubBLL.Helpers
             CreateMap<ApplicationUser, ApplicationUserDetailViewModel>();
             CreateMap<ApplicationUser, ApplicationUserGeneralViewModel>();
             CreateMap<ApplicationUserDtoForUpdate, ApplicationUser>();
+            CreateMap<ApplicationUserDtoForRegister, ApplicationUser>();
 
         }
 

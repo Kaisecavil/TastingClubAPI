@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -17,16 +19,19 @@ namespace TastingClubBLL.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
 
         public AuthService(UserManager<ApplicationUser> userManager,
             IConfiguration config,
-            IMapper mapper)
+            IMapper mapper,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _config = config;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
         public string GenerateTokenString(ApplicationUserDtoForLogin user, IEnumerable<string> roles)
@@ -34,12 +39,16 @@ namespace TastingClubBLL.Services
 
             IEnumerable<Claim> claims = new List<Claim>
             {
-                //new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Email, user.Email),
+                
                 //roles.Contains(RoleConstants.AdminRole)?
                 //new Claim(ClaimTypes.Role,  RoleConstants.AdminRole) : new Claim("isAdmin","No"),
                 //new Claim(ClaimTypes.Role,  RoleConstants.UserRole)
             };
             //claims.Append(new Claim(ClaimTypes.Role, RoleConstants.UserRole));
+            //@ test
+            GetUserRolesListAsync(_userManager.FindByEmailAsync(user.Email).Result.Id).Result
+                .ForEach(role => claims.Append(new Claim(ClaimTypes.Role, role)));
             SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value));
             SigningCredentials signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
             SecurityToken securityToken = new JwtSecurityToken(
@@ -89,8 +98,24 @@ namespace TastingClubBLL.Services
 
             // mb mapp?
             var mappedUser = _mapper.Map<ApplicationUser>(user);
+            //mappedUser.FirstName = "not imp";
+            //mappedUser.LastName = "not imp";
+            mappedUser.UserName = user.Email;
             var result = await _userManager.CreateAsync(mappedUser, user.Password);
             return result.Succeeded;
+        }
+
+        private async Task<List<string>> GetUserRolesListAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var userRoles = new List<string>();
+            await _roleManager.Roles.ForEachAsync(async role => {
+                if (_userManager.IsInRoleAsync(user,role.Name).Result)
+                    userRoles.Add(role.Name);
+            });
+            return userRoles;
+            //var roleNames = _roleManager.Roles.Select(role => role.Name);
+            //var a = roleNames.Where(async roleName => await _userManager.IsInRoleAsync(user,roleName).Result);
         }
 
     }
