@@ -9,7 +9,7 @@ namespace TastingClubDAL.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public EventStatus Status { get; set; }
-        public int GruopId { get; set; }
+        public int GroupId { get; set; }
         public virtual Group Group { get; set; }
         public virtual List<EventParticipant> EventParticipants { get; } = new();
         public virtual List<EventDrink> EventDrinks { get; } = new();

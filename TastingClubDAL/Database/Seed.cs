@@ -30,8 +30,7 @@ namespace TastingClubDAL.Database
                 },
 
             };
-            _unitOfWork.Groups.CreateRange(groups);
-            //await _unitOfWork.SaveAsync();
+            await _unitOfWork.Groups.CreateRangeAsync(groups);
             #endregion Groups
 
             #region suitableProducts
@@ -82,8 +81,7 @@ namespace TastingClubDAL.Database
                     Title = "Lamb"
                 }
             };
-            _unitOfWork.SuitableProducts.CreateRange(suitableProducts);
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.SuitableProducts.CreateRangeAsync(suitableProducts);
             #endregion suitableProducts
 
             #region drinkTypes
@@ -118,8 +116,7 @@ namespace TastingClubDAL.Database
                     Title = "Vodka"
                 }
             };
-            _unitOfWork.DrinkTypes.CreateRange(drinkTypes);
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.DrinkTypes.CreateRangeAsync(drinkTypes);
             #endregion drinkTypes
 
             #region producingCounties
@@ -158,8 +155,7 @@ namespace TastingClubDAL.Database
                     Name = "Spain"
                 }
             };
-            _unitOfWork.ProducingCountries.CreateRange(producingCountries);
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.ProducingCountries.CreateRangeAsync(producingCountries);
             #endregion producingCounties
 
             #region producers
@@ -198,8 +194,7 @@ namespace TastingClubDAL.Database
                     Name = "Veuve Clicquot"
                 }
             };
-            _unitOfWork.Producers.CreateRange(producers);
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.Producers.CreateRangeAsync(producers);
             #endregion producers
 
             #region drinkBrands
@@ -238,11 +233,9 @@ namespace TastingClubDAL.Database
                     Name = "Mondoro"
                 }
             };
-            _unitOfWork.DrinkBrands.CreateRange(drinkBrands);
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.DrinkBrands.CreateRangeAsync(drinkBrands);
             #endregion drinkBrands
 
-            _unitOfWork.Save();
 
             #region Drinks
             var drinks = new List<Drink>
@@ -297,7 +290,7 @@ namespace TastingClubDAL.Database
                 }
                 // Add more sample drinks as needed
             };
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.Drinks.CreateRangeAsync(drinks);
             #endregion Drinks
 
             #region drinkSuitableProduct
@@ -329,7 +322,7 @@ namespace TastingClubDAL.Database
                     SuitableProductId= suitableProducts[1].Id
                 }
             };
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.DrinkSuitableProducts.CreateRangeAsync(drinkSuitableProducts);
             #endregion drinkSuitableProduct
 
             #region events
@@ -339,7 +332,7 @@ namespace TastingClubDAL.Database
                 {
                     Date = DateTime.Now,
                     Description = "The best event ever 1",
-                    GruopId = groups[0].Id,
+                    GroupId = groups[0].Id,
                     Title = "YaggerMeister Party",
                     Status = Enums.EventStatus.Planned
                 },
@@ -347,7 +340,7 @@ namespace TastingClubDAL.Database
                 {
                     Date = DateTime.Now,
                     Description = "The best event ever 2",
-                    GruopId = groups[0].Id,
+                    GroupId = groups[0].Id,
                     Title = "Lidsokoe funs party",
                     Status = Enums.EventStatus.Canceled
                 },
@@ -355,12 +348,12 @@ namespace TastingClubDAL.Database
                 {
                     Date = DateTime.Now,
                     Description = "The best event ever 3",
-                    GruopId = groups[0].Id,
+                    GroupId = groups[0].Id,
                     Title = "Garage Enjoyers",
                     Status = Enums.EventStatus.InReview
                 }
             };
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.Events.CreateRangeAsync(events);
             #endregion events
 
             #region eventDrink
@@ -392,7 +385,7 @@ namespace TastingClubDAL.Database
                     EventId = events[1].Id
                 }
             };
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.EventDrinks.CreateRangeAsync(eventDrinks);
             #endregion eventDrink
 
             #region eventPartisipants
@@ -423,7 +416,7 @@ namespace TastingClubDAL.Database
                     Status = EventPartisipantStatus.Approved
                 },
             };
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.EventParticipants.CreateRangeAsync(eventParticipants);
             #endregion eventPartisipants
 
             #region userGroups
@@ -449,10 +442,12 @@ namespace TastingClubDAL.Database
                     UserId = userIds[1],
                     Role = UserGroupRole.Partisipant,
                     Status = GroupMembershipStatus.Member
-                }
+                }   
             };
-            await _unitOfWork.SaveAsync();
+            await _unitOfWork.UserGroups.CreateRangeAsync(userGroups);
             #endregion userDrinkReviews
+
+            await _unitOfWork.SaveAsync();
         }
     }
 }
