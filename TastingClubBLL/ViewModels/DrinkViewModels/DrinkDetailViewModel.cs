@@ -6,7 +6,6 @@ using TastingClubBLL.ViewModels.PhotoViewModels;
 using TastingClubBLL.ViewModels.ProducerViewModels;
 using TastingClubBLL.ViewModels.ProducingCountryViewModels;
 using TastingClubDAL.Constants.ModelConstants.DrinkConstants;
-using TastingClubDAL.Models;
 
 namespace TastingClubBLL.ViewModels.DrinkViewModels
 {

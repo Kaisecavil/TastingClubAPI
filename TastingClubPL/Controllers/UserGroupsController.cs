@@ -19,9 +19,9 @@ namespace TastingClubPL.Controllers
         }
 
         // GET: api/UserGroup
-        [HttpGet("{id}")]
+        [HttpGet("{userId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GroupGeneralViewModel>))]
-        public async Task<ActionResult<IEnumerable<GroupGeneralViewModel>>> GetUserGroup(string userId)
+        public async Task<ActionResult<IEnumerable<GroupGeneralViewModel>>> GetUserGroups(string userId)
         {
             try
             {

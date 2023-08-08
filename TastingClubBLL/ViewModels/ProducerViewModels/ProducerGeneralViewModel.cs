@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TastingClubBLL.ViewModels.ProducerViewModels
+﻿namespace TastingClubBLL.ViewModels.ProducerViewModels
 {
     public class ProducerGeneralViewModel
     {

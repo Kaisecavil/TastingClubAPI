@@ -21,9 +21,4 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Constants\ModelConstants\EventConstants\" />
-    <Folder Include="Constants\ModelConstants\GroupConstants\" />
-  </ItemGroup>
-
 </Project>

@@ -8,6 +8,7 @@
         public const string DefaultUserPassword = "P@ssw0rd321";
         public const string DefaultFirstName = "Vlad";
         public const string DefaultLastName = "Novikov";
+        public const string DefaultUserName = "Puchik";
 
     }
 }

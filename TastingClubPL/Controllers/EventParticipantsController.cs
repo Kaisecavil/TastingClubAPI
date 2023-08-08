@@ -4,7 +4,6 @@ using TastingClubBLL.DTOs.EventParticipantDTOs;
 using TastingClubBLL.Exceptions;
 using TastingClubBLL.Interfaces.IServices;
 using TastingClubBLL.ViewModels.ApplicationUserViewModels;
-using TastingClubBLL.ViewModels.DrinkViewModels;
 
 namespace TastingClubPL.Controllers
 {
@@ -20,9 +19,9 @@ namespace TastingClubPL.Controllers
         }
 
         // GET: api/EventParticipant
-        [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<DrinkGeneralViewModel>))]
-        public async Task<ActionResult<IEnumerable<ApplicationUserGeneralViewModel>>> GetEventParticipant(int eventId)
+        [HttpGet("{eventId}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<ApplicationUserGeneralViewModel>))]
+        public async Task<ActionResult<IEnumerable<ApplicationUserGeneralViewModel>>> GetEventParticipants(int eventId)
         {
             try
             {

@@ -19,7 +19,7 @@ namespace TastingClubPL.Controllers
         }
 
         // GET: api/EventDrinks
-        [HttpGet("{id}")]
+        [HttpGet("{eventId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<DrinkGeneralViewModel>))]
         public async Task<ActionResult<IEnumerable<DrinkGeneralViewModel>>> GetEventDrinks(int eventId)
         {
